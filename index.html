@@ -60,7 +60,7 @@ button{font:inherit;border:0;cursor:pointer}
 .months-container::-webkit-scrollbar{width:5px}
 .months-container::-webkit-scrollbar-thumb{background:#475569;border-radius:10px}
 
-.monthrow{background:#ffffff;color:#1e293b;border-radius:12px;margin:8px 0;padding:8px;display:grid;grid-template-columns:1fr 1fr 1fr 1fr 28px;gap:5px;align-items:center;box-shadow:0 2px 6px rgba(0,0,0,0.04)}
+.monthrow{background:#ffffff;color:#1e293b;border-radius:12px;margin:8px 0;padding:10px;display:grid;grid-template-columns:1fr 1fr 1fr 34px;gap:8px;align-items:center;box-shadow:0 2px 6px rgba(0,0,0,0.04)}
 .monthname{font-size:14px;font-weight:800;color:#0f172a}
 .inp-box{width:100%;min-width:0;border:1.5px solid #cbd5e1;border-radius:8px;padding:7px 6px;text-align:center;font:inherit;font-size:13px;outline:none;background:#f8fafc}
 .inp-box:focus{border-color:#4f46e5;background:#fff}
@@ -69,7 +69,7 @@ button{font:inherit;border:0;cursor:pointer}
 .save-bar{display:flex;flex-direction:column;align-items:center;gap:8px;padding-top:10px;border-top:1px dashed #334155}
 .save-btn{width:100%;background:#4f46e5;color:#ffffff;font-weight:800;font-size:15px;padding:11px;border-radius:12px;box-shadow:0 4px 12px rgba(79,70,229,0.3);transition:transform 0.1s}
 .save-btn:active{transform:scale(0.98)}
-.monthsummary{font-size:12px;color:#cbd5e1;text-align:center;font-weight:600}.member-tools{display:flex;gap:8px;width:100%}.member-tools button{flex:1;padding:9px;border-radius:9px;font-weight:700;background:#334155;color:white}.member-tools .danger{background:#7f1d1d}
+.monthsummary{font-size:12px;color:#94a3b8;text-align:center;font-weight:600}
 
 /* কাস্টম আধুনিক পপ-আপ মোডাল */
 #customModal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(15,23,42,0.75);backdrop-filter:blur(5px);display:flex;align-items:center;justify-content:center;z-index:9999;opacity:0;pointer-events:none;transition:opacity 0.25s ease}
@@ -102,14 +102,13 @@ th,td{padding:10px 8px;border-bottom:1px solid #f1f5f9;text-align:center;white-s
 th{background:#f8fafc;color:#0f172a;font-weight:700}
 .empty{text-align:center;color:#94a3b8;padding:20px;font-size:14px}
 .hint{font-size:12px;color:#64748b;line-height:1.5;margin:8px 0 0}
-@media(max-width:420px){.monthrow{grid-template-columns:.9fr 1fr 1fr 1fr 24px;gap:4px;padding:6px}.monthname{font-size:12px}.inp-box{font-size:11px;padding:7px 2px}.tick{width:22px;height:22px}}
 </style>
 </head>
 <body>
 
 <header>
   <h1>সাহাব্দীর চর বেপারী পাড়া</h1>
-  <p class="sub">সদস্যভিত্তিক মাসিক চাঁদার হিসাব</p>
+  <p class="sub">মুষ্টি চাউল ও টাকার হিসাব</p>
   <div id="clock">🕒 সময় ও তারিখ</div>
 </header>
 
@@ -118,7 +117,7 @@ th{background:#f8fafc;color:#0f172a;font-weight:700}
    <div class="stat money-card" onclick="openMonthlyStats('money')"><div class="emoji">💰</div><strong id="money">৳০</strong><span>মোট টাকা</span><small>মাসিক হিসাব দেখতে চাপুন</small></div>
    <div class="stat rice-card" onclick="openMonthlyStats('rice')"><div class="emoji">🌾</div><strong id="rice">০ কেজি</strong><span>মোট চাউল</span><small>মাসিক হিসাব দেখতে চাপুন</small></div>
    <div class="stat member-card"><div class="emoji">👥</div><strong id="count">০</strong><span>মোট সদস্য</span><small>সক্রিয় সদস্য</small></div>
-   <div class="stat all-card" onclick="openMonthlyStats('subscription')"><div class="emoji">🗓️</div><strong>মাসিক চাঁদা</strong><span>১২ মাসের হিসাব</span><small>চাঁদা জমা ও টাকা তোলা</small></div>
+   <div class="stat all-card" onclick="toggleAllPanel()"><div class="emoji">📚</div><strong>সব হিসাব</strong><span>সকল তালিকা</span><small>ক্লিক করে খুলুন</small></div>
   </section>
 
   <section class="panel">
@@ -132,7 +131,24 @@ th{background:#f8fafc;color:#0f172a;font-weight:700}
   <section class="panel">
    <h2 class="section-title">সদস্যদের তালিকা</h2>
    <div id="members" class="members"></div>
-   <p class="hint">💡 নামের ওপর চাপ দিয়ে ১২ মাসের হিসাব খুলুন। প্রতি মাসে চাঁদা জমা, টাকা তোলা ও চাউলের পরিমাণ লিখে সংরক্ষণ করুন। নাম সম্পাদনা বা মুছার অপশন নামের ভেতরে আছে।</p>
+   <p class="hint">💡 নামের ওপর চাপ দিয়ে ১২ মাসের হিসাব খুলুন। হিসাব টাইপ করার পর নিচে 💾 "সংরক্ষণ করুন" বাটনে চাপ দিন।</p>
+  </section>
+
+  <section class="panel" id="allPanel" style="display:none">
+   <h2 class="section-title">সব সদস্যের মোট হিসাব</h2>
+   <div class="alltable">
+     <table>
+       <thead>
+         <tr>
+           <th style="text-align:left">সদস্য</th>
+           <th>মোট টাকা</th>
+           <th>মোট চাউল</th>
+           <th>জমা মাস</th>
+         </tr>
+       </thead>
+       <tbody id="allRows"></tbody>
+     </table>
+   </div>
   </section>
 </main>
 
@@ -163,12 +179,11 @@ const months=['জানুয়ারি','ফেব্রুয়ারি','ম�
 const seed=`নবের,নুরআলী,উসমান,মনি,নুরআলম,জাবুল,আমির,পক্কা,মারুফ,ফজুল,সাজল,ইসমাইল,মোরছালিন,বগলা,গদা,রাসেল,নজরুল,তরজুল,বক্কর,ইসাআলী,ছিদ্দিক,হানি,হয,বাদশা,নুরআলী,মেনা,মালেক,সুরুজ,সিরাজ,জিয়েল,বেলাল,সোবহান,মুস্তাকিম,রফিকুল,জাহাঙ্গীর,মজিবর,লেকত,উসমান,মুনছুর,মুতালেব,নেছা,সবিজল,সামিদুল,শফি,গোলাপ,ইলিয়াছ,মনু,আবু,মুনা,নুরমিয়া,মস্তফা,লালমিয়া,ইসমাইলসুন্দর,মুকুল,এমদাদুল,হযরত,ফারুক,হক্ক,ফকির,হয়বর,শাহিদুল,নজি,নুরআলী,নুরনবি,সুরুজ,মুকুল,মিস্টার,আলিনুর,আমিনুর,ইদুল,আ:রহিম,সাইফুল,হাবি,এরশাদ,আশাদুল,হাবি,আক্কাস,আব্বাস,দ্বিনইসলাম,আন্তাজ,আক্তার,ইয়াছিন,মজমু,সদাই,সদু,মজিবর,জহুরুল,মজিবর,শফিকুল,মুর্শেদ,ছিয়াব্বর,গামা,বস্ক,মিরজাআলী,আবুসামা,বেলাল,আজিত,আকিমুল`;
 
 let people=JSON.parse(localStorage.getItem('char_beparee_v14')||'null');
-if(people){ people.forEach(p=>p.months.forEach(m=>{ if(m.withdraw===undefined) m.withdraw=''; })); }
 if(!people){
   people=seed.split(',').map(n=>n.trim()).filter(Boolean).map((n,i)=>({
     id:Date.now()+i,
     name:n,
-    months:months.map(()=>({kg:'',money:'',withdraw:'',paid:false}))
+    months:months.map(()=>({kg:'',money:'',paid:false}))
   }));
   persist(false);
 }
@@ -226,8 +241,8 @@ function openNameModal(title, desc, defaultVal, onSubmit){
 /* মাসিক হিসাব দেখানোর মোডাল ফাংশন */
 function openMonthlyStats(type){
   let modal=document.getElementById('customModal');
-  document.getElementById('modalTitle').textContent = type === 'subscription' ? '🗓️ ১২ মাসের মাসিক চাঁদা' : (type === 'money' ? '💰 ১২ মাসের মোট টাকার হিসাব' : '🌾 ১২ মাসের মোট চাউলের হিসাব');
-  document.getElementById('modalDesc').textContent = type === 'subscription' ? 'প্রতি মাসের চাঁদা জমা, টাকা তোলা ও অবশিষ্ট হিসাব:' : 'প্রতি মাসে সকল সদস্যের মোট জমার বিবরণ:';
+  document.getElementById('modalTitle').textContent = type === 'money' ? '💰 ১২ মাসের মোট টাকার হিসাব' : '🌾 ১২ মাসের মোট চাউলের হিসাব';
+  document.getElementById('modalDesc').textContent = 'প্রতি মাসে সকল সদস্যের মোট জমার বিবরণ:';
   
   document.getElementById('modalInputArea').style.display='none';
   let bodyArea=document.getElementById('modalBodyArea');
@@ -267,7 +282,7 @@ function openAddModal(){
     people.push({
       id:Date.now(),
       name:name,
-      months:months.map(()=>({kg:'',money:'',withdraw:'',paid:false}))
+      months:months.map(()=>({kg:'',money:'',paid:false}))
     });
     persist(false);
     showToast('✅ নতুন সদস্য যোগ হয়েছে!');
@@ -382,7 +397,7 @@ function renderMembers(){
       check.checked=!!m.paid;
       check.onchange=()=>{m.paid=check.checked;};
 
-      row.append(label,inputKg,inputMoney,inputWithdraw,check);
+      row.append(label,inputKg,inputMoney,check);
       monthsContainer.append(row);
     });
 
@@ -390,26 +405,20 @@ function renderMembers(){
 
     let sumKg=p.months.reduce((a,m)=>a+(+m.kg||0),0);
     let sumMoney=p.months.reduce((a,m)=>a+(+m.money||0),0);
-    let sumWithdraw=p.months.reduce((a,m)=>a+(+m.withdraw||0),0);
 
     let saveBar=document.createElement('div');
     saveBar.className='save-bar';
 
     let sum=document.createElement('div');
     sum.className='monthsummary';
-    sum.textContent=`চাঁদা জমা ৳${bn(sumMoney)} | তোলা ৳${bn(sumWithdraw)} | হাতে ৳${bn(sumMoney-sumWithdraw)}`;
+    sum.textContent=`মোট: ${bn(sumKg)} কেজি চাউল | ৳${bn(sumMoney)}`;
 
     let saveBtn=document.createElement('button');
     saveBtn.className='save-btn';
     saveBtn.textContent='💾 সংরক্ষণ করুন';
     saveBtn.onclick=()=>persist(true);
 
-    let tools=document.createElement('div');
-    tools.className='member-tools';
-    let edit=document.createElement('button'); edit.textContent='✏️ নাম সম্পাদনা'; edit.onclick=()=>editMemberName(p.id);
-    let del=document.createElement('button'); del.className='danger'; del.textContent='🗑️ নাম মুছুন'; del.onclick=()=>deleteMember(p.id);
-    tools.append(edit,del);
-    saveBar.append(sum, saveBtn, tools);
+    saveBar.append(sum, saveBtn);
     detail.append(saveBar);
     card.append(detail);
     box.append(card);
@@ -421,7 +430,24 @@ function clearSearch(){
   renderMembers();
 }
 
+function toggleAllPanel(){
+  let panel=document.getElementById('allPanel');
+  panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
+}
 
+function renderAll(){
+  document.getElementById('allRows').innerHTML=people.map(p=>{
+    let kg=p.months.reduce((a,m)=>a+(+m.kg||0),0);
+    let money=p.months.reduce((a,m)=>a+(+m.money||0),0);
+    let paidCount=p.months.filter(m=>m.paid||(+m.kg>0)||(+m.money>0)).length;
+    return `<tr>
+      <td style="text-align:left;font-weight:bold">${escapeHtml(p.name)}</td>
+      <td>৳${bn(money)}</td>
+      <td>${bn(kg)} কেজি</td>
+      <td>${bn(paidCount)} মাস</td>
+    </tr>`;
+  }).join('');
+}
 
 function escapeHtml(s){
   return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -437,7 +463,7 @@ function render(){
   document.getElementById('money').textContent='৳'+bn(money);
   document.getElementById('rice').textContent=bn(kg)+' কেজি';
   document.getElementById('count').textContent=bn(people.length);
-
+  renderAll();
 }
 
 render();
